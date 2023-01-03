@@ -10,6 +10,8 @@ class PlaceAnnotations: MKPointAnnotation {
 		self.mapItem = mapItem
 		super.init()
 		self.coordinate = mapItem.placemark.coordinate
+		self.title = mapItem.name
+		self.subtitle = mapItem.phoneNumber
 	}
 
 	var name: String {

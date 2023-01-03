@@ -14,6 +14,7 @@
 		6EFA46042962CFE500307EFA /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6EFA46022962CFE500307EFA /* LaunchScreen.storyboard */; };
 		6EFA460D2963BCFF00307EFA /* PlaceAnnotations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EFA460C2963BCFF00307EFA /* PlaceAnnotations.swift */; };
 		6EFA46102963BE0700307EFA /* CLLocation-Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EFA460F2963BE0700307EFA /* CLLocation-Ext.swift */; };
+		6EFA46132963D84F00307EFA /* PlacesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EFA46122963D84F00307EFA /* PlacesTableViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +27,7 @@
 		6EFA46052962CFE500307EFA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6EFA460C2963BCFF00307EFA /* PlaceAnnotations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceAnnotations.swift; sourceTree = "<group>"; };
 		6EFA460F2963BE0700307EFA /* CLLocation-Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CLLocation-Ext.swift"; sourceTree = "<group>"; };
+		6EFA46122963D84F00307EFA /* PlacesTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlacesTableViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,6 +60,7 @@
 		6EFA45F62962CFE400307EFA /* study-uikit */ = {
 			isa = PBXGroup;
 			children = (
+				6EFA46112963D84100307EFA /* Controllers */,
 				6EFA460E2963BDF200307EFA /* Extensions */,
 				6EFA460B2963BCF100307EFA /* Annotations */,
 				6EFA45F72962CFE400307EFA /* AppDelegate.swift */,
@@ -84,6 +87,14 @@
 				6EFA460F2963BE0700307EFA /* CLLocation-Ext.swift */,
 			);
 			path = Extensions;
+			sourceTree = "<group>";
+		};
+		6EFA46112963D84100307EFA /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				6EFA46122963D84F00307EFA /* PlacesTableViewController.swift */,
+			);
+			path = Controllers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -161,6 +172,7 @@
 				6EFA45FC2962CFE400307EFA /* Playground.swift in Sources */,
 				6EFA45F82962CFE400307EFA /* AppDelegate.swift in Sources */,
 				6EFA45FA2962CFE400307EFA /* SceneDelegate.swift in Sources */,
+				6EFA46132963D84F00307EFA /* PlacesTableViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

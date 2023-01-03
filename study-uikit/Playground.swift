@@ -17,7 +17,7 @@ class Playground: UIViewController {
 		tf.textColor = UIColor.black
 		tf.clipsToBounds = true
 		tf.backgroundColor = UIColor.white
-		tf.placeholder = "Search"
+		tf.attributedPlaceholder = NSAttributedString(string: "Search", attributes: [.foregroundColor: UIColor.gray])
 		tf.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 15, height: 0))
 		tf.leftViewMode = .always
 		return tf
@@ -54,6 +54,9 @@ class Playground: UIViewController {
 		])
 	}
 
+	/**
+	 requestLocation() -> setRegion() -> MKLocationSearch.Request().region
+	 */
 	func configureLocationManager() {
 		locationManager = CLLocationManager()
 		locationManager?.delegate = self
@@ -88,14 +91,39 @@ class Playground: UIViewController {
 		let search = MKLocalSearch(request: request)
 		search.start { [weak self] res, err in
 			guard let res = res, err == nil else { return }
-			let places = res.mapItems
+			let places = res.mapItems.map(PlaceAnnotations.init)
 			places.forEach { place in
-				let annotation = MKPointAnnotation()
-				annotation.coordinate = place.placemark.coordinate
-				annotation.title = place.name
-				annotation.subtitle = place.phoneNumber
-				self?.mapView.addAnnotation(annotation)
+				self?.mapView.addAnnotation(place)
 			}
+			
+			self?.presentPlacesTable(places: places)
+		}
+
+//		let search = MKLocalSearch(request: request)
+//		search.start { [weak self] res, err in
+//			guard let res = res, err == nil else { return }
+//			let places = res.mapItems
+//			places.forEach { place in
+//				let annotation = MKPointAnnotation()
+//				annotation.coordinate = place.placemark.coordinate
+//				annotation.title = place.name
+//				annotation.subtitle = place.phoneNumber
+//				self?.mapView.addAnnotation(annotation)
+//			}
+//		}
+	}
+	
+	func presentPlacesTable(places: [PlaceAnnotations]) {
+		guard let locationManager = locationManager, let userLocation = locationManager.location else { return }
+		
+		let placeTVC = PlacesTableViewController(userLocation: userLocation, places: places)
+		placeTVC.modalPresentationStyle = .pageSheet
+		
+		if let sheet = placeTVC.sheetPresentationController {
+			sheet.prefersGrabberVisible = true
+			sheet.detents = [.medium(), .large()]
+			
+			present(placeTVC, animated: true)
 		}
 	}
 }
