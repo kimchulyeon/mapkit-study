@@ -2,9 +2,10 @@ import UIKit
 import MapKit
 
 class Playground: UIViewController {
-	private let mapView: MKMapView = {
+	private lazy var mapView: MKMapView = {
 		let map = MKMapView()
 		map.translatesAutoresizingMaskIntoConstraints = false
+		map.delegate = self
 		map.userTrackingMode = .follow
 		map.showsUserLocation = true
 		return map
@@ -23,6 +24,7 @@ class Playground: UIViewController {
 		return tf
 	}()
 	var locationManager: CLLocationManager?
+	private var places: [PlaceAnnotations] = []
 
 	override func viewDidLoad() {
 		super.viewDidLoad()
@@ -91,12 +93,14 @@ class Playground: UIViewController {
 		let search = MKLocalSearch(request: request)
 		search.start { [weak self] res, err in
 			guard let res = res, err == nil else { return }
-			let places = res.mapItems.map(PlaceAnnotations.init)
-			places.forEach { place in
+			self?.places = res.mapItems.map(PlaceAnnotations.init)
+			self?.places.forEach { place in
 				self?.mapView.addAnnotation(place)
 			}
 			
-			self?.presentPlacesTable(places: places)
+			if let places = self?.places {
+				self?.presentPlacesTable(places: places)
+			}
 		}
 
 //		let search = MKLocalSearch(request: request)
@@ -126,6 +130,13 @@ class Playground: UIViewController {
 			present(placeTVC, animated: true)
 		}
 	}
+	
+	func clearAllSelection() {
+		places = places.map { place in
+			place.isSelected = false
+			return place
+		}
+	}
 }
 
 //MARK: - location manager 델리게이트
@@ -146,6 +157,21 @@ extension Playground: UITextFieldDelegate {
 		textField.resignFirstResponder()
 		findNearbyPlaces(by: text)
 		return true
+	}
+}
+
+//MARK: - map view 델리게이트
+extension Playground: MKMapViewDelegate {
+	func mapView(_ mapView: MKMapView, didSelect annotation: MKAnnotation) {
+		clearAllSelection()
+		
+		guard let selectedAnnotation = annotation as? PlaceAnnotations else { return }
+		
+		let placeAnnotation = self.places.first { annotation in
+			annotation.id == selectedAnnotation.id
+		}
+		placeAnnotation?.isSelected = true
+		presentPlacesTable(places: self.places)
 	}
 }
 
